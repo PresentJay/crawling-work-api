@@ -88,6 +88,8 @@ model Category {
 model Target {
   pid              Int                @id
   required         Boolean            @default(false)
+  disabled         Boolean            @default(false)
+  disabledNote     String?
   url              String             @unique
   rank             Int?
   country          Country?           @relation(fields: [countryKorean], references: [korean])
