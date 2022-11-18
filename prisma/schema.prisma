@@ -16,6 +16,7 @@ model User {
   createdTime DateTime   @default(now()) @db.Timestamptz()
   updatedTime DateTime   @updatedAt @db.Timestamptz()
   UserWork    UserWork[]
+  Target      Target[]
 }
 
 model Work {
@@ -60,4 +61,48 @@ model CrawlingMetadataColumn {
   name                       String
   description                String?
   crawlingMetadataTemplateId String                   @db.Uuid
+}
+
+model TargetState {
+  name        String   @id
+  description String?
+  Target      Target[]
+}
+
+model Country {
+  korean  String   @id
+  english String?
+  Target  Target[]
+}
+
+model LanguageGroup {
+  korean  String   @id
+  code    String?
+  english String?
+  Target  Target[]
+}
+
+model Category {
+  id     String   @id
+  korean String?
+  Target Target[]
+}
+
+model Target {
+  pid                 Int            @id
+  state               TargetState    @relation(fields: [targetStateName], references: [name])
+  required            Boolean        @default(false)
+  url                 String         @unique
+  rank                Int?
+  country             Country?       @relation(fields: [countryKorean], references: [korean])
+  language            LanguageGroup? @relation(fields: [languageGroupKorean], references: [korean])
+  category            Category?      @relation(fields: [categoryId], references: [id])
+  assignee            User?          @relation(fields: [userId], references: [id])
+  targetStateName     String
+  countryKorean       String?
+  languageGroupKorean String?
+  categoryId          String?
+  createdTime         DateTime       @default(now()) @db.Timestamptz()
+  updatedTime         DateTime       @updatedAt @db.Timestamptz()
+  userId              String?
 }
