@@ -72,7 +72,7 @@ model Country {
   Target  Target[]
 }
 
-model LanguageGroup {
+model Language {
   korean  String   @id
   code    String?
   english String?
@@ -86,22 +86,22 @@ model Category {
 }
 
 model Target {
-  pid                 Int                @id
-  required            Boolean            @default(false)
-  url                 String             @unique
-  rank                Int?
-  country             Country?           @relation(fields: [countryKorean], references: [korean])
-  language            LanguageGroup?     @relation(fields: [languageGroupKorean], references: [korean])
-  category            Category?          @relation(fields: [categoryId], references: [id])
-  assignee            User?              @relation(fields: [userId], references: [id])
-  countryKorean       String?
-  languageGroupKorean String?
-  categoryId          String?
-  createdTime         DateTime           @default(now()) @db.Timestamptz()
-  updatedTime         DateTime           @updatedAt @db.Timestamptz()
-  userId              String?
-  Ticket              Ticket[]
-  TargetAccessInfo    TargetAccessInfo[]
+  pid              Int                @id
+  required         Boolean            @default(false)
+  url              String             @unique
+  rank             Int?
+  country          Country?           @relation(fields: [countryKorean], references: [korean])
+  language         Language?          @relation(fields: [languageKorean], references: [korean])
+  category         Category?          @relation(fields: [categoryId], references: [id])
+  assignee         User?              @relation(fields: [userId], references: [id])
+  countryKorean    String?
+  languageKorean   String?
+  categoryId       String?
+  createdTime      DateTime           @default(now()) @db.Timestamptz()
+  updatedTime      DateTime           @updatedAt @db.Timestamptz()
+  userId           String?
+  Ticket           Ticket[]
+  TargetAccessInfo TargetAccessInfo[]
 }
 
 model Ticket {

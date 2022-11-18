@@ -183,6 +183,17 @@ async function main() {
         workId: 'a04717ca-f588-4a2c-bdb3-3c09b8babb4b',
       },
     ],
+    skipDuplicates: true,
+  });
+
+  await prisma.category.createMany({
+    data: [
+      { id: 'c1', korean: '영화' },
+      { id: 'c2', korean: '방송' },
+      { id: 'c3', korean: '영화/방송' },
+      { id: 'c4', korean: '웹툰' },
+    ],
+    skipDuplicates: true,
   });
 }
 
