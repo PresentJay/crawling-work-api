@@ -17,6 +17,7 @@ model User {
   updatedTime DateTime   @updatedAt @db.Timestamptz()
   UserWork    UserWork[]
   Target      Target[]
+  Ticket      Ticket[]
 }
 
 model Work {
@@ -30,6 +31,7 @@ model Work {
   updatedTime                DateTime                 @updatedAt @db.Timestamptz()
   UserWork                   UserWork[]
   crawlingMetadataTemplateId String                   @db.Uuid
+  Ticket                     Ticket[]
 }
 
 model UserWork {
@@ -63,12 +65,6 @@ model CrawlingMetadataColumn {
   crawlingMetadataTemplateId String                   @db.Uuid
 }
 
-model TargetState {
-  name        String   @id
-  description String?
-  Target      Target[]
-}
-
 model Country {
   korean  String   @id
   english String?
@@ -89,20 +85,92 @@ model Category {
 }
 
 model Target {
-  pid                 Int            @id
-  state               TargetState    @relation(fields: [targetStateName], references: [name])
-  required            Boolean        @default(false)
-  url                 String         @unique
+  pid                 Int                @id
+  required            Boolean            @default(false)
+  url                 String             @unique
   rank                Int?
-  country             Country?       @relation(fields: [countryKorean], references: [korean])
-  language            LanguageGroup? @relation(fields: [languageGroupKorean], references: [korean])
-  category            Category?      @relation(fields: [categoryId], references: [id])
-  assignee            User?          @relation(fields: [userId], references: [id])
-  targetStateName     String
+  country             Country?           @relation(fields: [countryKorean], references: [korean])
+  language            LanguageGroup?     @relation(fields: [languageGroupKorean], references: [korean])
+  category            Category?          @relation(fields: [categoryId], references: [id])
+  assignee            User?              @relation(fields: [userId], references: [id])
   countryKorean       String?
   languageGroupKorean String?
   categoryId          String?
-  createdTime         DateTime       @default(now()) @db.Timestamptz()
-  updatedTime         DateTime       @updatedAt @db.Timestamptz()
+  createdTime         DateTime           @default(now()) @db.Timestamptz()
+  updatedTime         DateTime           @updatedAt @db.Timestamptz()
   userId              String?
+  Ticket              Ticket[]
+  TargetAccessInfo    TargetAccessInfo[]
+}
+
+model Ticket {
+  id                      String                @id @default(uuid()) @db.Uuid
+  target                  Target                @relation(fields: [targetPid], references: [pid])
+  worker                  User                  @relation(fields: [userId], references: [id])
+  state                   TicketState           @relation(fields: [ticketStateName], references: [name])
+  pageMining              PageMiningMetadata    @relation(fields: [pageMiningMetadataId], references: [id])
+  contentMining           ContentMiningMetadata @relation(fields: [contentMiningMetadataId], references: [id])
+  sampleContentUrl        String?
+  work                    Work                  @relation(fields: [workId], references: [id])
+  createdTime             DateTime              @default(now()) @db.Timestamptz()
+  updatedTime             DateTime              @updatedAt @db.Timestamptz()
+  targetPid               Int
+  userId                  String
+  workId                  String                @db.Uuid
+  ticketStateName         String
+  pageMiningMetadataId    String                @db.Uuid
+  contentMiningMetadataId String                @db.Uuid
+  TargetAccessInfo        TargetAccessInfo[]
+}
+
+model TicketState {
+  name        String   @id
+  description String?
+  Ticket      Ticket[]
+}
+
+model PagingType {
+  name               String               @id
+  description        String?
+  PageMiningMetadata PageMiningMetadata[]
+}
+
+model PageMiningMetadata {
+  id                    String      @id @default(uuid()) @db.Uuid
+  type                  PagingType? @relation(fields: [pagingTypeName], references: [name])
+  selector              String?
+  testedTime            DateTime?   @db.Timestamptz()
+  testedDurationMills   Int?
+  avgPerPaginationMills Int?
+  paginationAmount      Int?
+  updatedTime           DateTime    @updatedAt @db.Timestamptz()
+  pagingTypeName        String?
+  Ticket                Ticket[]
+}
+
+model ContentMiningMetadata {
+  id                    String    @id @default(uuid()) @db.Uuid
+  selector              String?
+  testedTime            DateTime? @db.Timestamptz()
+  testedDurationMills   Int?
+  avgPerPaginationMills Int?
+  paginationAmount      Int?
+  updatedTime           DateTime  @updatedAt @db.Timestamptz()
+  Ticket                Ticket[]
+}
+
+model TargetAccessInfo {
+  id                  String   @id @default(uuid()) @db.Uuid
+  target              Target   @relation(fields: [targetPid], references: [pid])
+  accessingTicket     Ticket   @relation(fields: [ticketId], references: [id])
+  accessedTime        DateTime @db.Timestamptz()
+  redirectedUrl       String?
+  accessedTimeoutMax  Int
+  accessStatus        String?
+  accessStatusMessage String?
+  certProtocol        String?
+  certIssuer          String?
+  certSubject         String?
+  targetPid           Int
+  ticketId            String   @db.Uuid
 }
