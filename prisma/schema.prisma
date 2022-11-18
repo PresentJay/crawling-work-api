@@ -58,11 +58,12 @@ model CrawlingMetadataTemplate {
 }
 
 model CrawlingMetadataColumn {
-  id                         String                   @id @default(uuid()) @db.Uuid
-  template                   CrawlingMetadataTemplate @relation(fields: [crawlingMetadataTemplateId], references: [id])
+  id                         String                    @id @default(uuid()) @db.Uuid
+  template                   CrawlingMetadataTemplate  @relation(fields: [crawlingMetadataTemplateId], references: [id])
   name                       String
   description                String?
-  crawlingMetadataTemplateId String                   @db.Uuid
+  crawlingMetadataTemplateId String                    @db.Uuid
+  ContentScrapingMetadata    ContentScrapingMetadata[]
 }
 
 model Country {
@@ -104,25 +105,26 @@ model Target {
 }
 
 model Ticket {
-  id                      String                @id @default(uuid()) @db.Uuid
-  target                  Target                @relation(fields: [targetPid], references: [pid])
-  worker                  User                  @relation(fields: [userId], references: [id])
-  state                   TicketState           @relation(fields: [ticketStateName], references: [name])
-  pageMining              PageMiningMetadata    @relation(fields: [pageMiningMetadataId], references: [id])
-  contentMining           ContentMiningMetadata @relation(fields: [contentMiningMetadataId], references: [id])
+  id                      String                    @id @default(uuid()) @db.Uuid
+  target                  Target                    @relation(fields: [targetPid], references: [pid])
+  worker                  User                      @relation(fields: [userId], references: [id])
+  state                   TicketState               @relation(fields: [ticketStateName], references: [name])
+  pageMining              PageMiningMetadata        @relation(fields: [pageMiningMetadataId], references: [id])
+  contentMining           ContentMiningMetadata     @relation(fields: [contentMiningMetadataId], references: [id])
   sampleContentUrl        String?
-  work                    Work                  @relation(fields: [workId], references: [id])
-  createdTime             DateTime              @default(now()) @db.Timestamptz()
-  updatedTime             DateTime              @updatedAt @db.Timestamptz()
+  work                    Work                      @relation(fields: [workId], references: [id])
+  createdTime             DateTime                  @default(now()) @db.Timestamptz()
+  updatedTime             DateTime                  @updatedAt @db.Timestamptz()
   targetPid               Int
   userId                  String
-  workId                  String                @db.Uuid
+  workId                  String                    @db.Uuid
   ticketStateName         String
-  pageMiningMetadataId    String                @db.Uuid
-  contentMiningMetadataId String                @db.Uuid
+  pageMiningMetadataId    String                    @db.Uuid
+  contentMiningMetadataId String                    @db.Uuid
   TargetAccessInfo        TargetAccessInfo[]
   SubTicket               SubTicket[]
   CrawlingRunInfo         CrawlingRunInfo[]
+  ContentScrapingMetadata ContentScrapingMetadata[]
 }
 
 model TicketState {
@@ -181,20 +183,21 @@ model TargetAccessInfo {
 }
 
 model SubTicket {
-  id                      String                @id @default(uuid()) @db.Uuid
-  parent                  Ticket                @relation(fields: [ticketId], references: [id])
+  id                      String                    @id @default(uuid()) @db.Uuid
+  parent                  Ticket                    @relation(fields: [ticketId], references: [id])
   url                     String
-  state                   TicketState           @relation(fields: [ticketStateName], references: [name])
-  pageMining              PageMiningMetadata    @relation(fields: [pageMiningMetadataId], references: [id])
-  contentMining           ContentMiningMetadata @relation(fields: [contentMiningMetadataId], references: [id])
+  state                   TicketState               @relation(fields: [ticketStateName], references: [name])
+  pageMining              PageMiningMetadata        @relation(fields: [pageMiningMetadataId], references: [id])
+  contentMining           ContentMiningMetadata     @relation(fields: [contentMiningMetadataId], references: [id])
   sampleContentUrl        String?
-  ticketId                String                @db.Uuid
-  pageMiningMetadataId    String                @db.Uuid
-  contentMiningMetadataId String                @db.Uuid
+  ticketId                String                    @db.Uuid
+  pageMiningMetadataId    String                    @db.Uuid
+  contentMiningMetadataId String                    @db.Uuid
   ticketStateName         String
-  createdTime             DateTime              @default(now()) @db.Timestamptz()
-  updatedTime             DateTime              @updatedAt @db.Timestamptz()
+  createdTime             DateTime                  @default(now()) @db.Timestamptz()
+  updatedTime             DateTime                  @updatedAt @db.Timestamptz()
   CrawlingRunInfo         CrawlingRunInfo[]
+  ContentScrapingMetadata ContentScrapingMetadata[]
 }
 
 model CrawlingRunInfo {
@@ -210,4 +213,36 @@ model CrawlingRunInfo {
   korContentsCount   Int?
   ticketId           String     @db.Uuid
   subTicketId        String?    @db.Uuid
+}
+
+model DataProcessingStrategy {
+  id                    String                  @id @default(uuid()) @db.Uuid
+  name                  String
+  description           String?
+  hasArgs               Boolean                 @default(false)
+  DataProcessigMetadata DataProcessigMetadata[]
+}
+
+model DataProcessigMetadata {
+  id                        String                   @id @default(uuid()) @db.Uuid
+  strategy                  DataProcessingStrategy   @relation(fields: [dataProcessingStrategyId], references: [id])
+  args                      String[]
+  updatedTime               DateTime                 @updatedAt @db.Timestamptz()
+  dataProcessingStrategyId  String                   @db.Uuid
+  ContentScrapingMetadata   ContentScrapingMetadata? @relation(fields: [contentScrapingMetadataId], references: [id])
+  contentScrapingMetadataId String?                  @db.Uuid
+}
+
+model ContentScrapingMetadata {
+  id                       String                  @id @default(uuid()) @db.Uuid
+  ticket                   Ticket                  @relation(fields: [ticketId], references: [id])
+  subTicket                SubTicket?              @relation(fields: [subTicketId], references: [id])
+  isSub                    Boolean                 @default(false)
+  column                   CrawlingMetadataColumn  @relation(fields: [crawlingMetadataColumnId], references: [id])
+  selector                 String?
+  dataProcessing           DataProcessigMetadata[]
+  ignore                   Boolean                 @default(false)
+  ticketId                 String                  @db.Uuid
+  subTicketId              String?                 @db.Uuid
+  crawlingMetadataColumnId String                  @db.Uuid
 }
