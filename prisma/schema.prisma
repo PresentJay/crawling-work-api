@@ -19,14 +19,16 @@ model User {
 }
 
 model Work {
-  id                   String     @id @default(uuid()) @db.Uuid
-  title                String     @unique
-  objectCount          Int
-  avgAccuracyThreshold Decimal    @db.Decimal(4, 2)
-  failureThreshold     Decimal    @db.Decimal(4, 2)
-  createdTime          DateTime   @default(now()) @db.Timestamptz()
-  updatedTime          DateTime   @updatedAt @db.Timestamptz()
-  UserWork             UserWork[]
+  id                         String                   @id @default(uuid()) @db.Uuid
+  title                      String                   @unique
+  objectCount                Int
+  avgAccuracyThreshold       Decimal                  @db.Decimal(4, 2)
+  failureThreshold           Decimal                  @db.Decimal(4, 2)
+  crawlingMetadata           CrawlingMetadataTemplate @relation(fields: [crawlingMetadataTemplateId], references: [id])
+  createdTime                DateTime                 @default(now()) @db.Timestamptz()
+  updatedTime                DateTime                 @updatedAt @db.Timestamptz()
+  UserWork                   UserWork[]
+  crawlingMetadataTemplateId String                   @db.Uuid
 }
 
 model UserWork {
@@ -40,4 +42,22 @@ model UserWork {
   updatedTime     DateTime @updatedAt @db.Timestamptz()
   userId          String
   workId          String   @db.Uuid
+}
+
+model CrawlingMetadataTemplate {
+  id                     String                   @id @default(uuid()) @db.Uuid
+  name                   String
+  description            String?
+  createdTime            DateTime                 @default(now()) @db.Timestamptz()
+  updatedTime            DateTime                 @updatedAt @db.Timestamptz()
+  CrawlingMetadataColumn CrawlingMetadataColumn[]
+  Work                   Work[]
+}
+
+model CrawlingMetadataColumn {
+  id                         String                   @id @default(uuid()) @db.Uuid
+  template                   CrawlingMetadataTemplate @relation(fields: [crawlingMetadataTemplateId], references: [id])
+  name                       String
+  description                String?
+  crawlingMetadataTemplateId String                   @db.Uuid
 }
