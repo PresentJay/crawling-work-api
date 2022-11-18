@@ -1,0 +1,48 @@
+version: '3.5'
+services:
+  redis:
+    container_name: ${REDIS_HOST:-redis}
+    image: redis
+    ports:
+      - ${REDIS_PORT:-6379}:6379
+    volumes:
+      - redis:/data
+    env_file:
+      - .env
+  api:
+    container_name: ${API_HOST:-api}
+    build:
+      dockerfile: Dockerfile
+      context: .
+      target: development
+    volumes:
+      - ./:/usr/src/app
+    command: npm run start:dev
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - ${API_PORT:-3000}:3000
+    env_file:
+      - .env
+  postgres:
+    container_name: ${POSTGRES_HOST:-postgres}
+    image: postgres:14.5-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_DB: ${POSTGRES_DB:-default}
+      PGDATA: /data/postgres
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+      # - ../scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - ${POSTGRES_PORT:-5432}:5432
+    restart: unless-stopped
+    env_file:
+      - .env
+volumes:
+  redis:
+    driver: local
+  postgresql-data:
+  pgadmin-data:

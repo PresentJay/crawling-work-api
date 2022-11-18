@@ -7,6 +7,9 @@
   "license": "UNLICENSED",
   "scripts": {
     "init": "npm install && npm run build && npm run configure-husky",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:log": "docker-compose logs -f",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
