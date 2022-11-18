@@ -121,12 +121,15 @@ model Ticket {
   pageMiningMetadataId    String                @db.Uuid
   contentMiningMetadataId String                @db.Uuid
   TargetAccessInfo        TargetAccessInfo[]
+  SubTicket               SubTicket[]
+  CrawlingRunInfo         CrawlingRunInfo[]
 }
 
 model TicketState {
-  name        String   @id
+  name        String      @id
   description String?
   Ticket      Ticket[]
+  SubTicket   SubTicket[]
 }
 
 model PagingType {
@@ -146,17 +149,19 @@ model PageMiningMetadata {
   updatedTime           DateTime    @updatedAt @db.Timestamptz()
   pagingTypeName        String?
   Ticket                Ticket[]
+  SubTicket             SubTicket[]
 }
 
 model ContentMiningMetadata {
-  id                    String    @id @default(uuid()) @db.Uuid
+  id                    String      @id @default(uuid()) @db.Uuid
   selector              String?
-  testedTime            DateTime? @db.Timestamptz()
+  testedTime            DateTime?   @db.Timestamptz()
   testedDurationMills   Int?
   avgPerPaginationMills Int?
   paginationAmount      Int?
-  updatedTime           DateTime  @updatedAt @db.Timestamptz()
+  updatedTime           DateTime    @updatedAt @db.Timestamptz()
   Ticket                Ticket[]
+  SubTicket             SubTicket[]
 }
 
 model TargetAccessInfo {
@@ -173,4 +178,36 @@ model TargetAccessInfo {
   certSubject         String?
   targetPid           Int
   ticketId            String   @db.Uuid
+}
+
+model SubTicket {
+  id                      String                @id @default(uuid()) @db.Uuid
+  parent                  Ticket                @relation(fields: [ticketId], references: [id])
+  url                     String
+  state                   TicketState           @relation(fields: [ticketStateName], references: [name])
+  pageMining              PageMiningMetadata    @relation(fields: [pageMiningMetadataId], references: [id])
+  contentMining           ContentMiningMetadata @relation(fields: [contentMiningMetadataId], references: [id])
+  sampleContentUrl        String?
+  ticketId                String                @db.Uuid
+  pageMiningMetadataId    String                @db.Uuid
+  contentMiningMetadataId String                @db.Uuid
+  ticketStateName         String
+  createdTime             DateTime              @default(now()) @db.Timestamptz()
+  updatedTime             DateTime              @updatedAt @db.Timestamptz()
+  CrawlingRunInfo         CrawlingRunInfo[]
+}
+
+model CrawlingRunInfo {
+  id                 String     @id @default(uuid()) @db.Uuid
+  ticket             Ticket     @relation(fields: [ticketId], references: [id])
+  subTicket          SubTicket? @relation(fields: [subTicketId], references: [id])
+  isSub              Boolean    @default(false)
+  startTime          DateTime   @db.Timestamptz()
+  durationMills      Int?
+  avgPerSuccessMills Int?
+  avgFailMills       Int?
+  successRate        Decimal?
+  korContentsCount   Int?
+  ticketId           String     @db.Uuid
+  subTicketId        String?    @db.Uuid
 }
