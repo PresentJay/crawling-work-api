@@ -32,7 +32,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
       POSTGRES_DB: ${POSTGRES_DB:-default}
-      PGDATA: /data/postgres
+      PGDATA: /var/lib/postgresql/data
     volumes:
       - postgresql-data:/var/lib/postgresql/data
       # - ../scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
