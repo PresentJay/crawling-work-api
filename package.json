@@ -35,6 +35,7 @@
   "dependencies": {
     "@nestjs/axios": "^1.0.0",
     "@nestjs/common": "^9.0.0",
+    "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/swagger": "^6.1.3",
@@ -87,7 +88,10 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "collectCoverageFrom": [
-      "**/*.(t|j)s"
+      "{!(generated),}.(t|j)s"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/generated/"
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
