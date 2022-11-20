@@ -8,26 +8,66 @@ import { SubTicketEntity } from './subTicket.entity';
 import { CrawlingRunInfoEntity } from './crawlingRunInfo.entity';
 import { ContentScrapingMetadataEntity } from './contentScrapingMetadata.entity';
 import { TargetAccessInfoEntity } from './targetAccessInfo.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class TicketEntity {
+  @ApiProperty()
   id: string;
+
+  @ApiProperty()
   target?: TargetEntity;
+
+  @ApiProperty()
   worker?: UserEntity;
+
+  @ApiProperty()
   state?: TicketStateEntity;
+
+  @ApiProperty()
   pageMining?: PageMiningMetadataEntity;
+
+  @ApiProperty()
   contentMining?: ContentMiningMetadataEntity;
+
+  @ApiProperty()
   sampleContentUrl: string | null;
+
+  @ApiProperty()
   work?: WorkEntity;
+
+  @ApiProperty()
   createdTime: Date;
+
+  @ApiProperty()
   updatedTime: Date;
+
+  @ApiProperty()
   targetPid: number;
+
+  @ApiProperty()
   userId: string;
+
+  @ApiProperty()
   workId: string;
+
+  @ApiProperty()
   ticketStateName: string;
+
+  @ApiProperty()
   pageMiningMetadataId: string;
+
+  @ApiProperty()
   contentMiningMetadataId: string;
+
+  @ApiProperty()
   TargetAccessInfo?: TargetAccessInfoEntity[];
+
+  @ApiProperty()
   SubTicket?: SubTicketEntity[];
+
+  @ApiProperty()
   CrawlingRunInfo?: CrawlingRunInfoEntity[];
+
+  @ApiProperty()
   ContentScrapingMetadata?: ContentScrapingMetadataEntity[];
 }

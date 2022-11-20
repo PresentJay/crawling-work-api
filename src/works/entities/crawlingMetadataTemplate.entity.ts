@@ -1,4 +1,4 @@
-import { CrawlingMetadataColumn } from '../../crawlingMetadataColumn/entities/crawlingMetadataColumn.entity';
+import { CrawlingMetadataColumnEntity } from './crawlingMetadataColumn.entity';
 import { WorkEntity } from './work.entity';
 
 export class CrawlingMetadataTemplateEntity {
@@ -7,6 +7,6 @@ export class CrawlingMetadataTemplateEntity {
   description: string | null;
   createdTime: Date;
   updatedTime: Date;
-  CrawlingMetadataColumn?: CrawlingMetadataColumn[];
+  CrawlingMetadataColumn?: CrawlingMetadataColumnEntity[];
   Work?: WorkEntity[];
 }

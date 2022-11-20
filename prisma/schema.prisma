@@ -225,6 +225,7 @@ model CrawlingRunInfo {
   ticket             Ticket     @relation(fields: [ticketId], references: [id])
   subTicket          SubTicket? @relation(fields: [subTicketId], references: [id])
   isSub              Boolean    @default(false)
+  isLocal            Boolean    @default(true)
   startTime          DateTime   @db.Timestamptz()
   durationMills      Int?
   avgPerSuccessMills Int?
