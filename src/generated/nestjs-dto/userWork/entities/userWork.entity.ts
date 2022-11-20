@@ -7,6 +7,7 @@ export class UserWork {
   work?: Work;
   allocated: number;
   successed: number;
+  paused: number;
   totalSpentMills: number;
   createdTime: Date;
   updatedTime: Date;

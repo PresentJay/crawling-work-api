@@ -55,11 +55,14 @@ model UserWork {
   work            Work     @relation(fields: [workId], references: [id])
   allocated       Int      @default(0)
   successed       Int      @default(0)
+  paused          Int      @default(0)
   totalSpentMills Int      @default(0)
   createdTime     DateTime @default(now()) @db.Timestamptz()
   updatedTime     DateTime @updatedAt @db.Timestamptz()
   userId          String
   workId          String   @db.Uuid
+
+  @@unique([userId, workId])
 }
 
 model CrawlingMetadataTemplate {

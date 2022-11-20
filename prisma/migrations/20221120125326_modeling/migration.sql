@@ -17,7 +17,7 @@ CREATE TABLE "Work" (
     "failureThreshold" DECIMAL(4,2) NOT NULL,
     "createdTime" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedTime" TIMESTAMPTZ NOT NULL,
-    "crawlingMetadataTemplateId" UUID NOT NULL,
+    "crawlingMetadataTemplateId" UUID,
 
     CONSTRAINT "Work_pkey" PRIMARY KEY ("id")
 );
@@ -27,6 +27,7 @@ CREATE TABLE "UserWork" (
     "id" UUID NOT NULL,
     "allocated" INTEGER NOT NULL DEFAULT 0,
     "successed" INTEGER NOT NULL DEFAULT 0,
+    "paused" INTEGER NOT NULL DEFAULT 0,
     "totalSpentMills" INTEGER NOT NULL DEFAULT 0,
     "createdTime" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedTime" TIMESTAMPTZ NOT NULL,
@@ -66,12 +67,12 @@ CREATE TABLE "Country" (
 );
 
 -- CreateTable
-CREATE TABLE "LanguageGroup" (
+CREATE TABLE "Language" (
     "korean" TEXT NOT NULL,
     "code" TEXT,
     "english" TEXT,
 
-    CONSTRAINT "LanguageGroup_pkey" PRIMARY KEY ("korean")
+    CONSTRAINT "Language_pkey" PRIMARY KEY ("korean")
 );
 
 -- CreateTable
@@ -86,10 +87,12 @@ CREATE TABLE "Category" (
 CREATE TABLE "Target" (
     "pid" INTEGER NOT NULL,
     "required" BOOLEAN NOT NULL DEFAULT false,
+    "disabled" BOOLEAN NOT NULL DEFAULT false,
+    "disabledNote" TEXT,
     "url" TEXT NOT NULL,
     "rank" INTEGER,
     "countryKorean" TEXT,
-    "languageGroupKorean" TEXT,
+    "languageKorean" TEXT,
     "categoryId" TEXT,
     "createdTime" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedTime" TIMESTAMPTZ NOT NULL,
@@ -243,10 +246,13 @@ CREATE TABLE "ContentScrapingMetadata" (
 CREATE UNIQUE INDEX "Work_title_key" ON "Work"("title");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "UserWork_userId_workId_key" ON "UserWork"("userId", "workId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Target_url_key" ON "Target"("url");
 
 -- AddForeignKey
-ALTER TABLE "Work" ADD CONSTRAINT "Work_crawlingMetadataTemplateId_fkey" FOREIGN KEY ("crawlingMetadataTemplateId") REFERENCES "CrawlingMetadataTemplate"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Work" ADD CONSTRAINT "Work_crawlingMetadataTemplateId_fkey" FOREIGN KEY ("crawlingMetadataTemplateId") REFERENCES "CrawlingMetadataTemplate"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "UserWork" ADD CONSTRAINT "UserWork_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -261,7 +267,7 @@ ALTER TABLE "CrawlingMetadataColumn" ADD CONSTRAINT "CrawlingMetadataColumn_craw
 ALTER TABLE "Target" ADD CONSTRAINT "Target_countryKorean_fkey" FOREIGN KEY ("countryKorean") REFERENCES "Country"("korean") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Target" ADD CONSTRAINT "Target_languageGroupKorean_fkey" FOREIGN KEY ("languageGroupKorean") REFERENCES "LanguageGroup"("korean") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Target" ADD CONSTRAINT "Target_languageKorean_fkey" FOREIGN KEY ("languageKorean") REFERENCES "Language"("korean") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Target" ADD CONSTRAINT "Target_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE SET NULL ON UPDATE CASCADE;
