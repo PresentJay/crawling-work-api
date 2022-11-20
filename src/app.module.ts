@@ -5,6 +5,7 @@ import { HealthModule } from './health/health.module';
 import { UsersModule } from './users/users.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
+import { WorksModule } from './works/works.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { ConfigModule } from '@nestjs/config';
     UsersModule,
     PrismaModule,
     ConfigModule.forRoot({ isGlobal: true }),
+    WorksModule,
   ],
   controllers: [AppController],
   providers: [AppService],

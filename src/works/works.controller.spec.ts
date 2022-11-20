@@ -1,23 +1,23 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PrismaService } from '../prisma/prisma.service';
-import { UsersController } from './users.controller';
-import { UsersService } from './users.service';
+import { WorksController } from './works.controller';
+import { WorksService } from './works.service';
 
 import { ModuleMocker, MockFunctionMetadata } from 'jest-mock';
 
 const moduleMocker = new ModuleMocker(global);
 
-describe('UsersController', () => {
-  let controller: UsersController;
+describe('WorksController', () => {
+  let controller: WorksController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [UsersController],
-      providers: [UsersService, PrismaService],
+      controllers: [WorksController],
+      providers: [WorksService, PrismaService],
     })
       .useMocker((token) => {
         const results = ['test1', 'test2'];
-        if (token === UsersService) {
+        if (token === WorksService) {
           return { findAll: jest.fn().mockResolvedValue(results) };
         }
         if (token === 'function') {
@@ -30,7 +30,7 @@ describe('UsersController', () => {
       })
       .compile();
 
-    controller = module.get<UsersController>(UsersController);
+    controller = module.get<WorksController>(WorksController);
   });
 
   it('should be defined', () => {
