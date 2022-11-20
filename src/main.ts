@@ -1,3 +1,4 @@
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
@@ -8,6 +9,7 @@ async function bootstrap() {
     logger: ['debug', 'warn', 'error'],
   });
 
+  const configService = app.get(ConfigService);
   const config = new DocumentBuilder()
     .setTitle('crawling-work-api')
     .setDescription('crawling-work management backend api')
@@ -16,10 +18,10 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-
+  const port = configService.get('API_PORT');
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(3000);
+  await app.listen(port);
 
   if (module.hot) {
     module.hot.accept();
