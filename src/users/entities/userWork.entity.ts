@@ -8,6 +8,7 @@ export class UserWorkEntity implements UserWork {
   work?: WorkEntity;
   allocated: number;
   successed: number;
+  paused: number;
   totalSpentMills: number;
   createdTime: Date;
   updatedTime: Date;

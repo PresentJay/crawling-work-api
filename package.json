@@ -13,6 +13,7 @@
     "docker:build": "docker-compose build",
     "docker:migrate": "docker exec api sh -c \"npx prisma migrate dev --name modeling\" && npm run format",
     "docker:seed": "docker exec api sh -c \"npx prisma db seed\"",
+    "docker:seed:target": "docker exec api sh -c \"npx ts-node prisma/targetSeed.ts\"",
     "docker:test": "docker exec api sh -c \"npm run test\"",
     "document": "npx @compodoc/compodoc -p tsconfig.json -s",
     "prebuild": "rimraf dist",
@@ -45,7 +46,8 @@
     "lint-staged": "^13.0.3",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.18.12/xlsx-0.18.12.tgz"
   },
   "devDependencies": {
     "@compodoc/compodoc": "^1.1.19",

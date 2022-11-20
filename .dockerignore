@@ -1,0 +1,17 @@
+# configurations
+.idea
+
+# installed files
+node_modules
+htmlStore
+
+coverage
+dist
+documentation
+
+*.xlsx
+*.csv
+
+.husky
+.github
+examples

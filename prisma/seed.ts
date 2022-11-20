@@ -198,6 +198,7 @@ async function main() {
 
   await prisma.language.createMany({
     data: [
+      { korean: '없음' },
       { korean: '덴마크어' },
       { korean: '독일어' },
       { korean: '러시아어' },
@@ -234,6 +235,7 @@ async function main() {
 
   await prisma.country.createMany({
     data: [
+      { korean: '없음' },
       { korean: '베네수엘라' },
       { korean: '베트남' },
       { korean: '벨기에' },
