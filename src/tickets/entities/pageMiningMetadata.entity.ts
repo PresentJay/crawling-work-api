@@ -1,0 +1,17 @@
+import { TicketEntity } from './ticket.entity';
+import { SubTicketEntity } from './subTicket.entity';
+import { PagingTypeEntity } from './pagingType.entity';
+
+export class PageMiningMetadataEntity {
+  id: string;
+  type?: PagingTypeEntity | null;
+  selector: string | null;
+  testedTime: Date | null;
+  testedDurationMills: number | null;
+  avgPerPaginationMills: number | null;
+  paginationAmount: number | null;
+  updatedTime: Date;
+  pagingTypeName: string | null;
+  Ticket?: TicketEntity[];
+  SubTicket?: SubTicketEntity[];
+}

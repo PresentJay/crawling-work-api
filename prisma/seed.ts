@@ -206,7 +206,7 @@ async function main() {
       { korean: '루마니아어' },
       { korean: '말레이어' },
       { korean: '미얀마어' },
-      { korean: '벵골어' },
+      { korean: '뱅골어' },
       { korean: '베트남어' },
       { korean: '불가리아어' },
       { korean: '스페인어' },
@@ -300,6 +300,41 @@ async function main() {
       { korean: '리비아' },
     ],
     skipDuplicates: true,
+  });
+
+  await prisma.pagingType.createMany({
+    data: [
+      { name: '무한스크롤 방식' },
+      { name: '원버튼 방식' },
+      { name: '페이지네이션' },
+    ],
+    skipDuplicates: true,
+  });
+
+  await prisma.ticketState.createMany({
+    data: [
+      { name: '정보 없음' },
+      { name: '접속 가능' },
+      { name: '목록 수집 가능' },
+      { name: '전체 데이터 수집 가능' },
+      { name: '수집 중' },
+      { name: '수집 실패' },
+      { name: '수집 성공' },
+    ],
+    skipDuplicates: true,
+  });
+
+  await prisma.dataProcessingStrategy.createMany({
+    data: [
+      { name: '(SINGLE) ONLY TEXT' },
+      { name: '(MULTI) ONLY TEXT' },
+      { name: 'TEXT JOIN WITH COMMA' },
+      { name: 'REPLACE SINGLE TARGET TO EMPTY' },
+      { name: 'COUNT LENGTH OF ELEMENTS' },
+      { name: '(SINGLE) ONLY NUMERIC' },
+      { name: '(SINGLE) SPLIT AND SELECT SOME CHOICE' },
+      { name: '(MULTI) SPLIT AND SELECT AND JOIN SOME CHOICE' },
+    ],
   });
 }
 

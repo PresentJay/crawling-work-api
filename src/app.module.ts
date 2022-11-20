@@ -7,6 +7,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
 import { WorksModule } from './works/works.module';
 import { TargetsModule } from './targets/targets.module';
+import { TicketsModule } from './tickets/tickets.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { TargetsModule } from './targets/targets.module';
     ConfigModule.forRoot({ isGlobal: true }),
     WorksModule,
     TargetsModule,
+    TicketsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
