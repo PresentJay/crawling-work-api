@@ -21,7 +21,7 @@ export class Target {
   categoryId: string | null;
   createdTime: Date;
   updatedTime: Date;
-  userId: string | null;
+  assigneeId: string | null;
   Ticket?: Ticket[];
   TargetAccessInfo?: TargetAccessInfo[];
 }

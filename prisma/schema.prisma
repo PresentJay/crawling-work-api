@@ -113,13 +113,13 @@ model Target {
   country          Country?           @relation(fields: [countryKorean], references: [korean])
   language         Language?          @relation(fields: [languageKorean], references: [korean])
   category         Category?          @relation(fields: [categoryId], references: [id])
-  assignee         User?              @relation(fields: [userId], references: [id])
+  assignee         User?              @relation(fields: [assigneeId], references: [id])
   countryKorean    String?
   languageKorean   String?
   categoryId       String?
   createdTime      DateTime           @default(now()) @db.Timestamptz()
   updatedTime      DateTime           @updatedAt @db.Timestamptz()
-  userId           String?
+  assigneeId       String?
   Ticket           Ticket[]
   TargetAccessInfo TargetAccessInfo[]
 }

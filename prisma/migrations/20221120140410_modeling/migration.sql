@@ -96,7 +96,7 @@ CREATE TABLE "Target" (
     "categoryId" TEXT,
     "createdTime" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedTime" TIMESTAMPTZ NOT NULL,
-    "userId" TEXT,
+    "assigneeId" TEXT,
 
     CONSTRAINT "Target_pkey" PRIMARY KEY ("pid")
 );
@@ -273,7 +273,7 @@ ALTER TABLE "Target" ADD CONSTRAINT "Target_languageKorean_fkey" FOREIGN KEY ("l
 ALTER TABLE "Target" ADD CONSTRAINT "Target_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Target" ADD CONSTRAINT "Target_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Target" ADD CONSTRAINT "Target_assigneeId_fkey" FOREIGN KEY ("assigneeId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Ticket" ADD CONSTRAINT "Ticket_targetPid_fkey" FOREIGN KEY ("targetPid") REFERENCES "Target"("pid") ON DELETE RESTRICT ON UPDATE CASCADE;
