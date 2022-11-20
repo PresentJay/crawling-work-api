@@ -1,7 +1,10 @@
+import { CrawlingMetadataTemplate } from '@prisma/client';
 import { CrawlingMetadataColumnEntity } from './crawlingMetadataColumn.entity';
 import { WorkEntity } from './work.entity';
 
-export class CrawlingMetadataTemplateEntity {
+export class CrawlingMetadataTemplateEntity
+  implements CrawlingMetadataTemplate
+{
   id: string;
   name: string;
   description: string | null;

@@ -7,6 +7,7 @@ export class CrawlingRunInfo {
   ticket?: Ticket;
   subTicket?: SubTicket | null;
   isSub: boolean;
+  isLocal: boolean;
   startTime: Date;
   durationMills: number | null;
   avgPerSuccessMills: number | null;

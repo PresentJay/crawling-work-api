@@ -10,7 +10,7 @@ import {
 import { TargetsService } from './targets.service';
 import { CreateTargetDto } from './dto/create-target.dto';
 import { UpdateTargetDto } from './dto/update-target.dto';
-import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { TargetEntity } from './entities/target.entity';
 
 @Controller('targets')
@@ -25,21 +25,25 @@ export class TargetsController {
   }
 
   @Get()
+  @ApiOkResponse({ type: TargetEntity, isArray: true })
   findAll() {
     return this.targetsService.findAll();
   }
 
   @Get(':pid')
+  @ApiOkResponse({ type: TargetEntity })
   findOne(@Param('pid') pid: number) {
     return this.targetsService.findOne(pid);
   }
 
   @Patch(':pid')
+  @ApiOkResponse({ type: TargetEntity })
   update(@Param('pid') pid: number, @Body() updateTargetDto: UpdateTargetDto) {
     return this.targetsService.update(pid, updateTargetDto);
   }
 
   @Delete(':pid')
+  @ApiOkResponse({ type: TargetEntity })
   remove(@Param('pid') pid: number) {
     return this.targetsService.remove(pid);
   }

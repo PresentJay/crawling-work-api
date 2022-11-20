@@ -1,3 +1,3 @@
 export class ConnectDataProcessingStrategyDto {
-  id: string;
+  name: string;
 }

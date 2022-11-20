@@ -4,8 +4,9 @@ import { PageMiningMetadataEntity } from './pageMiningMetadata.entity';
 import { ContentMiningMetadataEntity } from './contentMiningMetadata.entity';
 import { ContentScrapingMetadataEntity } from './contentScrapingMetadata.entity';
 import { CrawlingRunInfoEntity } from './crawlingRunInfo.entity';
+import { SubTicket } from '@prisma/client';
 
-export class SubTicketEntity {
+export class SubTicketEntity implements SubTicket {
   id: string;
   parent?: TicketEntity;
   url: string;

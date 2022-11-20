@@ -1,8 +1,9 @@
 import { TicketEntity } from './ticket.entity';
 import { SubTicketEntity } from './subTicket.entity';
 import { PagingTypeEntity } from './pagingType.entity';
+import { PageMiningMetadata } from '@prisma/client';
 
-export class PageMiningMetadataEntity {
+export class PageMiningMetadataEntity implements PageMiningMetadata {
   id: string;
   type?: PagingTypeEntity | null;
   selector: string | null;

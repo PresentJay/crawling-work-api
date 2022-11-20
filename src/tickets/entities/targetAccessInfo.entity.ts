@@ -1,7 +1,8 @@
+import { TargetAccessInfo } from '@prisma/client';
 import { TargetEntity } from 'src/targets/entities/target.entity';
 import { TicketEntity } from './ticket.entity';
 
-export class TargetAccessInfoEntity {
+export class TargetAccessInfoEntity implements TargetAccessInfo {
   id: string;
   target?: TargetEntity;
   accessingTicket?: TicketEntity;

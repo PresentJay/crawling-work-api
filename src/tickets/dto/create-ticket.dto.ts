@@ -5,7 +5,7 @@ export class CreateTicketDto {
   targetPid: number;
 
   @ApiProperty()
-  workerId: string;
+  userId: string;
 
   @ApiProperty()
   workId: string;

@@ -9,8 +9,9 @@ import { CrawlingRunInfoEntity } from './crawlingRunInfo.entity';
 import { ContentScrapingMetadataEntity } from './contentScrapingMetadata.entity';
 import { TargetAccessInfoEntity } from './targetAccessInfo.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { Ticket } from '@prisma/client';
 
-export class TicketEntity {
+export class TicketEntity implements Ticket {
   @ApiProperty()
   id: string;
 

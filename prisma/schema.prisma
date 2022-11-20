@@ -129,8 +129,8 @@ model Ticket {
   target                  Target                    @relation(fields: [targetPid], references: [pid])
   worker                  User                      @relation(fields: [userId], references: [id])
   state                   TicketState               @relation(fields: [ticketStateName], references: [name])
-  pageMining              PageMiningMetadata        @relation(fields: [pageMiningMetadataId], references: [id])
-  contentMining           ContentMiningMetadata     @relation(fields: [contentMiningMetadataId], references: [id])
+  pageMining              PageMiningMetadata?       @relation(fields: [pageMiningMetadataId], references: [id])
+  contentMining           ContentMiningMetadata?    @relation(fields: [contentMiningMetadataId], references: [id])
   sampleContentUrl        String?
   work                    Work                      @relation(fields: [workId], references: [id])
   createdTime             DateTime                  @default(now()) @db.Timestamptz()
@@ -138,9 +138,9 @@ model Ticket {
   targetPid               Int
   userId                  String
   workId                  String                    @db.Uuid
-  ticketStateName         String
-  pageMiningMetadataId    String                    @db.Uuid
-  contentMiningMetadataId String                    @db.Uuid
+  ticketStateName         String                    @default("정보 없음")
+  pageMiningMetadataId    String?                   @db.Uuid
+  contentMiningMetadataId String?                   @db.Uuid
   TargetAccessInfo        TargetAccessInfo[]
   SubTicket               SubTicket[]
   CrawlingRunInfo         CrawlingRunInfo[]
@@ -248,7 +248,7 @@ model DataProcessigMetadata {
   strategy                   DataProcessingStrategy   @relation(fields: [dataProcessingStrategyName], references: [name])
   args                       String[]
   updatedTime                DateTime                 @updatedAt @db.Timestamptz()
-  dataProcessingStrategyName String                   @db.Uuid
+  dataProcessingStrategyName String
   ContentScrapingMetadata    ContentScrapingMetadata? @relation(fields: [contentScrapingMetadataId], references: [id])
   contentScrapingMetadataId  String?                  @db.Uuid
 }

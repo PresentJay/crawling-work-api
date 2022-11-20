@@ -1,9 +1,10 @@
+import { ContentScrapingMetadata } from '@prisma/client';
 import { CrawlingMetadataColumnEntity } from '../../works/entities/crawlingMetadataColumn.entity';
 import { DataProcessigMetadataEntity } from './dataProcessigMetadata.entity';
 import { SubTicketEntity } from './subTicket.entity';
 import { TicketEntity } from './ticket.entity';
 
-export class ContentScrapingMetadataEntity {
+export class ContentScrapingMetadataEntity implements ContentScrapingMetadata {
   id: string;
   ticket?: TicketEntity;
   subTicket?: SubTicketEntity | null;

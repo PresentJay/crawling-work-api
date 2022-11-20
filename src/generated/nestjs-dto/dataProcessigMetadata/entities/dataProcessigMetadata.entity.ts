@@ -6,7 +6,7 @@ export class DataProcessigMetadata {
   strategy?: DataProcessingStrategy;
   args: string[];
   updatedTime: Date;
-  dataProcessingStrategyId: string;
+  dataProcessingStrategyName: string;
   ContentScrapingMetadata?: ContentScrapingMetadata | null;
   contentScrapingMetadataId: string | null;
 }

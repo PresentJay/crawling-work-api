@@ -14,8 +14,8 @@ export class Ticket {
   target?: Target;
   worker?: User;
   state?: TicketState;
-  pageMining?: PageMiningMetadata;
-  contentMining?: ContentMiningMetadata;
+  pageMining?: PageMiningMetadata | null;
+  contentMining?: ContentMiningMetadata | null;
   sampleContentUrl: string | null;
   work?: Work;
   createdTime: Date;
@@ -24,8 +24,8 @@ export class Ticket {
   userId: string;
   workId: string;
   ticketStateName: string;
-  pageMiningMetadataId: string;
-  contentMiningMetadataId: string;
+  pageMiningMetadataId: string | null;
+  contentMiningMetadataId: string | null;
   TargetAccessInfo?: TargetAccessInfo[];
   SubTicket?: SubTicket[];
   CrawlingRunInfo?: CrawlingRunInfo[];

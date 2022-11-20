@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Country } from '@prisma/client';
 
-export class CountryEntity {
+export class CountryEntity implements Country {
   @ApiProperty()
   korean: string;
 

@@ -57,4 +57,5 @@ main()
   .finally(async () => {
     // close Prisma Client at the end
     await prisma.$disconnect();
+    console.log('seed targets successful.');
   });
