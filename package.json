@@ -7,6 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "init": "npm install && npm run build && npm run configure-husky",
+    "docker:cli": "docker exec -it api sh -c \"npm run start -- --entryFile repl\"",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
     "docker:log": "docker-compose logs -f",

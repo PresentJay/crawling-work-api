@@ -8,6 +8,19 @@ export class TicketsService {
   constructor(private prisma: PrismaService) {}
 
   create(createTicketDto: CreateTicketDto) {
+    const pageMiningId = this.prisma.pageMiningMetadata.create({
+      data: {},
+    });
+    const contentMiningId = this.prisma.contentMiningMetadata.create({
+      data: {},
+    });
+    const CrawlingMetadata = this.prisma.work.findUnique({
+      where: { id: createTicketDto.workId },
+      select: {
+        crawlingMetadata: true,
+      },
+    });
+
     return this.prisma.ticket.create({ data: createTicketDto });
   }
 

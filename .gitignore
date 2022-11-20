@@ -38,3 +38,4 @@ documentation
 *.xlsx
 
 prisma/migrations
+stack
